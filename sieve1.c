@@ -64,7 +64,7 @@ int main (int argc, char *argv[])
       exit(1);
    }
 
-   for (int i = 0; i < n; i++) { if (i != 0 && i % 2 == 0) marked[i] = 1; else marked[i] = 0; }   if (!id) index = 0;
+   for (i = 0; i < n; i++) { if (i != 0 && i % 2 == 0) marked[i] = 1; else marked[i] = 0; }   if (!id) index = 0;
    prime = 2;
    do {
       if (prime * prime > low_value)
@@ -73,7 +73,7 @@ int main (int argc, char *argv[])
          if (!(low_value % prime)) first = 0;
          else first = prime - (low_value % prime);
       }
-      for (int i = first; i < n - 1; i += prime) if (i % 2 != 0) marked[i] = 1;
+      for (i = first; i < n - 1; i += prime) if (i % 2 != 0) marked[i] = 1;
       if (!id) {
             while (marked[++index]);
             prime = index + 2;
