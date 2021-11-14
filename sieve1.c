@@ -21,7 +21,8 @@ int main (int argc, char *argv[])
    unsigned long int    proc0_size;   /* Size of proc 0's subarray */
    unsigned long int    prime;        /* Current prime */
    unsigned long int    size;         /* Elements in 'marked' */
-
+   
+   //unsigned long int    evencount; /* Number of evencount */
 
    MPI_Init (&argc, &argv);
 
@@ -43,17 +44,48 @@ int main (int argc, char *argv[])
 
    /* Add you code here  */
    
+   low_value = 2 + id * (n - 1) / p;
+   high_value = 1 + (id + 1) * (n - 1) / p;
+   size = high_value - low_value + 1;
 
+   proc0_size = (n - 1) / p;
 
+   if ((2 + proc0_size) < (int) sqrt((double) n)) {
+      if (!id) printf("Too many processes\n");
+      MPI_Finalize();
+      exit(1);
+   }
 
+   marked = (char *) malloc(size);
 
+   if (marked == NULL) {
+      printf("Cannot allocate enough memory\n");
+      MPI_Finalize();
+      exit(1);
+   }
 
-
-
-
-
-
-
+   for (int i = 0; i < n; i++) { if (i != 0 && i % 2 == 0) marked[i] = 1; else marked[i] = 0; }   if (!id) index = 0;
+   prime = 2;
+   do {
+      if (prime * prime > low_value)
+         first = prime * prime - low_value;
+      else {
+         if (!(low_value % prime)) first = 0;
+         else first = prime - (low_value % prime);
+      }
+      for (int i = first; i < n - 1; i += prime) if (i % 2 != 0) marked[i] = 1;
+      if (!id) {
+            while (marked[++index]);
+            prime = index + 2;
+      }
+      if (p > 1) MPI_Bcast(&prime, 1, MPI_INT, 0, MPI_COMM_WORLD);
+   } while (prime * prime <= n);
+   count = 0;
+   for (i = 0; i < size; i++)
+      if (!marked[i]) count++;
+   if (p > 1)
+      MPI_Reduce(&count, &global_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+   
    elapsed_time += MPI_Wtime();
 
 
