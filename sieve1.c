@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
       well as the integers represented by the first and
       last array elements */
 
-   low_value = 2 + id * (n - 1) / p;
+   low_value = 3 + id * (n - 1) / p;
    high_value = 1 + (id + 1) * (n - 1) / p;
    //size = high_value - low_value + 1;
    if (high_value % 2 != 0 && low_value != 0) size = (high_value - low_value + 2) >> 1;
