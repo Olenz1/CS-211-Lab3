@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
    do {
       if (prime * prime > low_value)
          //first = prime * prime - low_value;
-         first = (3 * prime - 3) >> 1;
+         first = (3 * prime - low_value) >> 1;
       else {
          if (!(low_value % prime)) first = 0;
          else first = prime - (low_value % prime);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
       if (!id) {
          while (marked[++index]);
          //prime = index + 2;
-         prime = 2 * index + 3;
+         prime = 2 * index + low_value;
       }
       if (p > 1) MPI_Bcast(&prime, 1, MPI_INT, 0, MPI_COMM_WORLD);
    } while (prime * prime <= n);
