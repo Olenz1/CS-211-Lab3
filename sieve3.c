@@ -99,9 +99,10 @@ int main(int argc, char *argv[]) {
    high_value = (high_index + 1) * 2 + 1;
    size = (high_value - low_value) / 2 + 1;
 
-   int LEVEL1_CACHE_size = 32768;      // default 32768
-   int LEVEL2_CACHE_size = 262144;     // default 262144
-   int LEVEL3_CACHE_size = 26214400;    // default 10485760
+   int LEVEL1_CACHE_size = 16384;      // default 16384
+   int LEVEL2_CACHE_size = 2097152;     // default 2097152
+   int LEVEL3_CACHE_size = 11582912;    // default 12582912
+
    int CACHE_size = atoi(argv[2]);
 
    int LEVEL1_CACHE_int = LEVEL1_CACHE_size / 4;
