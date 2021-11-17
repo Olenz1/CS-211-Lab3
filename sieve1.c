@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
       }
       if (p > 1) MPI_Bcast(&prime, 1, MPI_INT, 0, MPI_COMM_WORLD);
    } while (prime * prime <= n);
-   count = 1; // 2 is even but also prime
+   count = 0;
    for (i = 0; i < size; i++)
       if (!marked[i]) count++;
    if (p > 1)
@@ -129,7 +129,8 @@ int main(int argc, char *argv[]) {
 
 
    /* Print the results */
-
+   
+   global_count += 1;// 2 is even but also prime
    if (!id) {
       printf("The total number of prime: %ld, total time: %10.6f, total node %d\n", global_count, elapsed_time, p);
    }
