@@ -101,13 +101,13 @@ int main(int argc, char *argv[]) {
       // }
 
       if (prime * prime > low_value)
-            first = (prime * prime - low_value)/2;
+            first = (prime * prime - low_value) >> 1;
       else {
          if (!(low_value % prime)) first = 0;
-         else if(low_value % prime % 2 ==0)
-            first = prime - ((low_value % prime)/2);       // 此处在求局部first（数组中第一个可以被prime整除的数）的时候非常巧妙
+         else if(low_value % prime % 2 == 0)
+            first = prime - ((low_value % prime) >> 1);       // 此处在求局部first（数组中第一个可以被prime整除的数）的时候非常巧妙
          else
-            first = (prime - (low_value % prime))/2;
+            first = (prime - (low_value % prime)) >> 1;
       }
 
       for (i = first; i < size; i += prime) marked[i] = 1;
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
    count = 0;
    for (i = 0; i < size; i++)
       if (!marked[i]) count++;
-   count ++; // 2 is even but also prime
+   //count ++; // 2 is even but also prime
    if (p > 1)
       MPI_Reduce(&count, &global_count, 1, MPI_INT, MPI_SUM,
                   0, MPI_COMM_WORLD);
