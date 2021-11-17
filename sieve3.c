@@ -146,17 +146,17 @@ int main(int argc, char *argv[]) {
                   else first = (prime - (Block_low_value % prime)) / 2;
             }
 
-            for (int i = first; i < Block_size; i += prime) {
+            for (i = first; i < Block_size; i += prime) {
                   marked[i] = 1;
             }
 
-            while (sub_marked[++index]);
+            while (temp_marked[++index]);
 
             prime = index * 2 + 3; 
 
          } while (prime * prime <= Block_high_value);
 
-         for (int i = 0; i < Block_size; i++) {
+         for (i = 0; i < Block_size; i++) {
             if (marked[i] == 0) {
                   Block_count++;
             }
