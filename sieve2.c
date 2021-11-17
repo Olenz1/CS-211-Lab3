@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
       // }
       first = (prime * prime - temp_low_value) >> 1;
 
-      for (i = first; i < temp_n; i += prime) tempMarked[i] = 1;
+      for (i = first; i < temp_n; i += prime) temp_marked[i] = 1;
       
       while(temp_marked[++index]);
       prime = 2 * index + 3;
