@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
    if (n % 2 == 0) n -= 1;
 
-   low_index = ((n - 1) >> 1) / p;
+   low_index = id * ((n - 1) >> 1) / p;
    high_index = (id+1) * ((n-1) >> 1) / p; 
    low_value = low_index * 2 + 3;
    high_value = high_index * 2 + 1;
