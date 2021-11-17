@@ -54,7 +54,6 @@ int main(int argc, char *argv[]) {
       last array elements */
 
    if (n % 2 == 0) n -= 1;
-   count ++; // 2 is even but also prime
 
    low_index = id * ((n - 1) >> 1) / p;
    high_index = (id+1) * ((n-1) >> 1) / p; 
@@ -119,7 +118,7 @@ int main(int argc, char *argv[]) {
       }
       if (p > 1) MPI_Bcast(&prime, 1, MPI_INT, 0, MPI_COMM_WORLD);
    } while (prime * prime <= n);
-   count = 0;
+   count = 1; // 2 is even but also prime
    for (i = 0; i < size; i++)
       if (!marked[i]) count++;
    if (p > 1)
