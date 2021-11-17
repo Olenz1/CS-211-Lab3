@@ -51,12 +51,19 @@ int main(int argc, char *argv[]) {
       well as the integers represented by the first and
       last array elements */
 
-   low_value = 3 + id * (n - 1) / p;
-   high_value = 1 + (id + 1) * (n - 1) / p;
-   //size = high_value - low_value + 1;
-   if (high_value % 2 != 0 && low_value != 0) size = (high_value - low_value + 2) >> 1;
-   else if (high_value % 2 == 0 && low_value == 0) size = (high_value - low_value) >> 1;
-   else size = (high_value - low_value + 1) >> 1;
+   if (n % 2 == 0) n -= 1;
+
+   low_index = ((n - 1) >> 1) / p;
+   high_index = (id+1) * ((n-1) >> 1) / p; 
+   low_value = low_index * 2 + 3;
+   high_value = high_index * 2 + 1;
+   size = ((high_value - low_value) >> 1) + 1;
+   // low_value = 2 + id * (n - 1) / p;
+   // high_value = 1 + (id + 1) * (n - 1) / p;
+   // //size = high_value - low_value + 1;
+   // if (high_value % 2 != 0 && low_value != 0) size = (high_value - low_value + 2) >> 1;
+   // else if (high_value % 2 == 0 && low_value == 0) size = (high_value - low_value) >> 1;
+   // else size = (high_value - low_value + 1) >> 1;
 
    /* Bail out if all the primes used for sieving are
       not all held by process 0 */
@@ -83,18 +90,29 @@ int main(int argc, char *argv[]) {
    if (!id) index = 0;
    prime = 3;
    do {
+      // if (prime * prime > low_value)
+      //    //first = prime * prime - low_value;
+      //    first = (3 * prime - low_value) >> 1;
+      // else {
+      //    if (!(low_value % prime)) first = 0;
+      //    else first = prime - (low_value % prime);
+      // }
+
       if (prime * prime > low_value)
-         //first = prime * prime - low_value;
-         first = (3 * prime - low_value) >> 1;
+            first = (prime * prime - low_value)/2;
       else {
          if (!(low_value % prime)) first = 0;
-         else first = prime - (low_value % prime);
+         else if(low_value % prime % 2 ==0)
+            first = prime - ((low_value % prime)/2);       // 此处在求局部first（数组中第一个可以被prime整除的数）的时候非常巧妙
+         else
+            first = (prime - (low_value % prime))/2;
       }
+
       for (i = first; i < size; i += prime) marked[i] = 1;
       if (!id) {
          while (marked[++index]);
          //prime = index + 2;
-         prime = 2 * index + low_value;
+         prime = 2 * index + 3;
       }
       if (p > 1) MPI_Bcast(&prime, 1, MPI_INT, 0, MPI_COMM_WORLD);
    } while (prime * prime <= n);
