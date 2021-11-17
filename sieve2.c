@@ -103,7 +103,7 @@
         }
 
         for (i = first; i < size; i += prime) marked[i] = 1;
-        for (i = first; i < temp_size; i += prime) temp_marked = 1;
+        for (i = first; i < temp_size; i += prime) temp_marked[i] = 1;
 
         while (temp_marked[++temp_index]);
         //prime = index + 2;
