@@ -29,6 +29,8 @@ int main(int argc, char *argv[]) {
    unsigned long int proc0_size;   /* Size of proc 0's subarray */
    unsigned long int prime;        /* Current prime */
    unsigned long int size;         /* Elements in 'marked' */
+   unsigned long int low_index; 
+   unsigned long int high_index;
 
    MPI_Init(&argc, &argv);
 
